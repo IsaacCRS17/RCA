@@ -1,6 +1,8 @@
 package com.rca.RCA.repository;
 
+import com.rca.RCA.entity.AlumnoEntity;
 import com.rca.RCA.entity.ClaseEntity;
+import com.rca.RCA.entity.PeriodoEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -25,6 +27,53 @@ public interface ClaseRepository extends JpaRepository<ClaseEntity, Integer> {
             "c.status = :status and dc.status = :status " +
             "and ( dc.code like concat('%', :filter, '%'))")
     Long findCountEntities(String status, String filter);
+
+    @Query(value = "Select c.* from clase c " +
+            "join periodo p on p.id = c.periodo_id " +
+            "join docentexcurso dxc on dxc.id = c.docentexcurso_id " +
+            "join curso cu on cu.id = dxc.curso_id " +
+            "join aula a on a.id = dxc.aula_id " +
+            "Where c.tx_status = :status and dxc.tx_status = :status and cu.tx_status =:status " +
+            "and a.tx_status =:status and p.tx_status=:status " +
+            "and (c.name like concat('%', :filter, '%') " +
+            "or c.date like concat('%', :filter, '%')) " +
+            "and a.tx_unique_identifier like concat ('%',:aula,'%') " +
+            "and cu.tx_unique_identifier like concat ('%',:curso,'%') " +
+            "and p.tx_unique_identifier like concat ('%',:periodo,'%') and c.tx_status=:status", nativeQuery = true)
+    Optional<List<ClaseEntity>> findEntities(String filter, String status, String periodo, String aula, String curso, Pageable pageable);
+
+    @Query(value = "Select count(*) from clase c " +
+            "join periodo p on p.id = c.periodo_id " +
+            "join docentexcurso dxc on dxc.id = c.docentexcurso_id " +
+            "join curso cu on cu.id = dxc.curso_id " +
+            "join aula a on a.id = dxc.aula_id " +
+            "Where c.tx_status = :status and dxc.tx_status = :status and cu.tx_status =:status " +
+            "and a.tx_status =:status and p.tx_status=:status " +
+            "and (c.name like concat('%', :filter, '%') " +
+            "or c.date like concat('%', :filter, '%')) " +
+            "and a.tx_unique_identifier like concat ('%',:aula,'%') " +
+            "and cu.tx_unique_identifier like concat ('%',:curso,'%') " +
+            "and p.tx_unique_identifier like concat ('%',:periodo,'%') and c.tx_status=:status", nativeQuery = true)
+    Long findCountEntities(String filter, String status, String periodo, String aula, String curso);
+
+    @Query(value = "SELECT al FROM AlumnoEntity al " +
+            "JOIN al.matriculaEntities m " +
+            "JOIN m.aulaEntity au " +
+            "JOIN au.docentexCursoEntities dxc " +
+            "JOIN dxc.cursoEntity c " +
+            "JOIN dxc.anio_lectivoEntity a " +
+            "WHERE al.status = :status " +
+            "AND m.status = :status " +
+            "AND au.status = :status " +
+            "AND dxc.status = :status " +
+            "AND c.status = :status " +
+            "AND a.status = :status " +
+            "AND a.uniqueIdentifier = :anio " +
+            "AND au.uniqueIdentifier = :aula " +
+            "AND c.uniqueIdentifier = :curso")
+    Optional<List<AlumnoEntity>> findAlumnosxClase(String status, String anio, String aula, String curso);
+
+
 
     Optional<ClaseEntity> findByUniqueIdentifier(String uniqueIdentifier);
 

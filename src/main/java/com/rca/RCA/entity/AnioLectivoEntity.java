@@ -1,9 +1,10 @@
 package com.rca.RCA.entity;
 
 import com.rca.RCA.type.AnioLectivoDTO;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +29,9 @@ public class AnioLectivoEntity extends AuditoryEntity{
     //Periodos del año
     @OneToMany(mappedBy = "anio_lectivoEntity", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Set<PeriodoEntity> periodoEntities = new HashSet<>();
+    //Asignaturas del año
+    @OneToMany(mappedBy = "anio_lectivoEntity", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<DocentexCursoEntity> docentexCursoEntities = new HashSet<>();
 
     public AnioLectivoDTO getAnioLectivoDTO(){
         AnioLectivoDTO anio_lectivoDTO = new AnioLectivoDTO();

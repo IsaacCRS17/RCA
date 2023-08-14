@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rca.RCA.type.AlumnoDTO;
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,13 +25,13 @@ public class AlumnoEntity extends AuditoryEntity{
     @Column(name = "namecon_pri")
     @NotBlank
     private String namecon_pri;
-    @Column(name = "telcon_pri", unique = true)
+    @Column(name = "telcon_pri")
     @NotBlank
     private String telcon_pri;
     @Column(name = "namecon_sec")
     @NotBlank
     private String namecon_sec;
-    @Column(name = "telcon_sec", unique = true)
+    @Column(name = "telcon_sec")
     @NotBlank
     private String telcon_sec;
     @Column(name = "vaccine")
@@ -116,15 +116,15 @@ public class AlumnoEntity extends AuditoryEntity{
         return this.usuarioEntity.getPa_surname();
     }
     public String getNombresCompletosAl(){
-        return this.usuarioEntity != null ? (this.usuarioEntity.getPa_surname()+this.usuarioEntity.getMa_surname() +this.usuarioEntity.getName()):"----";
+        return this.usuarioEntity != null ? (this.usuarioEntity.getPa_surname()+" "+this.usuarioEntity.getMa_surname() +" " +this.usuarioEntity.getName()):"----";
     }
 
     public String getNombreApoderado(){
-        return this.apoderadoEntity != null ? (this.apoderadoEntity.getUsuarioEntity().getPa_surname() + this.apoderadoEntity.getUsuarioEntity().getMa_surname()+this.apoderadoEntity.getUsuarioEntity().getName()) :"---";
+        return this.apoderadoEntity != null ? (this.apoderadoEntity.getPa_surname() + " " + this.apoderadoEntity.getMa_surname() + " " +this.apoderadoEntity.getName()) :"---";
     }
 
     public String getTelApoderado(){
-        return this.apoderadoEntity != null ? this.apoderadoEntity.getUsuarioEntity().getTel() :"---";
+        return this.apoderadoEntity != null ? this.apoderadoEntity.getTel() :"---";
     }
     public String getEmailApoderado(){
         return this.apoderadoEntity != null ? this.apoderadoEntity.getEmail():"---";

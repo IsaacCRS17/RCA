@@ -8,7 +8,7 @@ public class Code {
     public static final int ROL_LENGTH = 6;
 
     public static final String USUARIO_CODE = "USU";
-    public static final int USUARIO_LENGTH = 6;
+    public static final int USUARIO_LENGTH = 8;
 
     public static final String IMAGEN_CODE = "IMG";
     public static final int IMAGEN_LENGTH = 6;
@@ -17,10 +17,10 @@ public class Code {
     public static final int NEWS_LENGTH = 6;
 
     public static final String APO_CODE = "APO";
-    public static final int APO_LENGTH = 6;
+    public static final int APO_LENGTH = 8;
 
     public static final String ALU_CODE = "ALU";
-    public static final int ALU_LENGTH = 6;
+    public static final int ALU_LENGTH = 8;
 
     public static final String ASIS_CODE = "ASIS";
     public static final int ASIS_LENGTH = 6;
@@ -56,6 +56,10 @@ public class Code {
 
     public static final String MAT_CODE = "MAT";
     public static final int MAT_LENGTH = 9;
+
+    public static final String RUTA_IMAGENES = "src/main/resources/images";
+
+    public static final String RUTA_SERVIDOR = "http://localhost:8080/";
 
 
     public static String generateCode(String prefix, long current, int maxLength) {

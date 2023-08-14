@@ -1,11 +1,16 @@
 package com.rca.RCA.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.rca.RCA.type.ClaseDTO;
 import lombok.Data;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,9 +25,11 @@ public class ClaseEntity extends AuditoryEntity{
     private Integer id;
     @Column(name = "code", length = 15)
     private String code;
+    @JsonFormat(pattern = "YYYY-MM-dd")
     @Column(name = "date")
-    @NotBlank
-    private String date;
+    private Date date;
+
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "docentexcurso_id")
@@ -42,6 +49,7 @@ public class ClaseEntity extends AuditoryEntity{
         ClaseDTO.setId(this.getUniqueIdentifier());
         ClaseDTO.setCode(this.code);
         ClaseDTO.setDate(this.date);
+        ClaseDTO.setName(this.name);
         ClaseDTO.setPeriodoDTO(this.periodoEntity.getPeriodoDTO());
         ClaseDTO.setDocentexCursoDTO(this.docentexCursoEntity.getDocentexCursoDTO());
         ClaseDTO.setStatus(this.getStatus());
@@ -55,9 +63,16 @@ public class ClaseEntity extends AuditoryEntity{
         this.setUniqueIdentifier(ClaseDTO.getId());
         this.code= ClaseDTO.getCode();
         this.date= ClaseDTO.getDate();
+        this.name= ClaseDTO.getName();
         this.setStatus(ClaseDTO.getStatus());
         this.setCreateAt(ClaseDTO.getCreateAt());
         this.setUpdateAt(ClaseDTO.getUpdateAt());
         this.setDeleteAt(ClaseDTO.getDeleteAt());
+    }
+
+    public String getFechaFormatString(){
+        return this.date != null ?
+                new SimpleDateFormat("dd-MM-yyyy").format(this.date) :
+                "---";
     }
 }
